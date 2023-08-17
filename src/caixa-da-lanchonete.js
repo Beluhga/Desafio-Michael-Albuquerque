@@ -41,17 +41,20 @@ class CaixaDaLanchonete {
             valorTotal += parseFloat(itemCardapio.price.replace("R$", "").replace(",", ".")) * quantidadeInt;
         
         }
-
-        for (const codigo in extrasPorItem) {
-            if (codigo === "chantily" && !extrasPorItem[codigo].includes("cafe")) {
-                return "Item extra não pode ser pedido sem o principal";
+        if (extrasPorItem["chantily"]) {
+            const hasCafe = itens.some(item => item.includes("cafe,"));
+            if (!hasCafe) {
+                return "Item extra não pode ser pedido sem o principal.";
             }
-
-            if (codigo === "queijo" && !extrasPorItem[codigo].includes("sanduiche")) {
-                return "Item extra não pode ser pedido sem o principal";
+        }
+        if (extrasPorItem["queijo"]) {
+            const hasCafe = itens.some(item => item.includes("sanduiche,"));
+            if (!hasCafe) {
+                return "Item extra não pode ser pedido sem o principal.";
             }
         }
 
+       
         if (metodoDePagamento === "credito") {
             valorTotal *= (1 + this.acrescimoCredito); // Acréscimo de 3% para pagamento a crédito
         } else if (metodoDePagamento === "dinheiro") {
@@ -77,13 +80,11 @@ const caixa = new CaixaDaLanchonete(Cardapio);
 
 // Exemplo de uso
 const itensComprados = [
-    
-    "sanduiche, 1",
-    
-    
+   "chantily, 1",
+   
 ];
 
-const metodoPagamento = "credito"; // debito ou "dinheiro" ou "credito"
+const metodoPagamento = "dinheiro"; // debito ou "dinheiro" ou "credito"
 
 const valorTotalCompra = caixa.calcularValorDaCompra(metodoPagamento, itensComprados);
 console.log(valorTotalCompra);
