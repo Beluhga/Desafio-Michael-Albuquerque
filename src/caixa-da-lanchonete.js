@@ -41,13 +41,13 @@ class CaixaDaLanchonete {
             valorTotal += parseFloat(itemCardapio.price.replace("R$", "").replace(",", ".")) * quantidadeInt;
         
         }
-        if (extrasPorItem["chantily"]) {
+        if (extrasPorItem["chantily"] || extrasPorItem["chantily,"]) {
             const hasCafe = itens.some(item => item.includes("cafe,"));
             if (!hasCafe) {
                 return "Item extra não pode ser pedido sem o principal.";
             }
         }
-        if (extrasPorItem["queijo"]) {
+        if (extrasPorItem["queijo"] || extrasPorItem["queijo,"]) {
             const hasCafe = itens.some(item => item.includes("sanduiche,"));
             if (!hasCafe) {
                 return "Item extra não pode ser pedido sem o principal.";
@@ -66,7 +66,7 @@ class CaixaDaLanchonete {
 }
 
 // Defina o cardápio
-const Cardapio = [
+const cardapio = [
     { id: "cafe", name: "Café", price: "R$ 3,00" },
     { id: "chantily", name: "Chantily (extra do Café)", price: "R$ 1,50" },
     { id: "suco", name: "Suco Natural", price: "R$ 6,20" },
@@ -76,11 +76,12 @@ const Cardapio = [
     { id: "combo1", name: "1 Suco e 1 Sanduíche", price: "R$ 9,50" },
     { id: "combo2", name: "1 Café e 1 Sanduíche", price: "R$ 7,50" }
 ];
-const caixa = new CaixaDaLanchonete(Cardapio);
+const caixa = new CaixaDaLanchonete(cardapio);
 
 // Exemplo de uso
 const itensComprados = [
-   "chantily, 1",
+   "sanduiche, 1",
+   "queijo, 5"
    
 ];
 
